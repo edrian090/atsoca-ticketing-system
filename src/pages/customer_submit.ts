@@ -6,22 +6,22 @@ import '../styles/shared.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   const categoryLabels: Record<string, string> = {
-    billing: "Billing / Payment",
-    logistics: "Logistics / Delivery",
-    promotions: "Promotions / Inquiries",
-    hr: "Employment / HR",
-    technical: "Technical / App Issues",
-    sales: "Sales / Product Inquiry",
-    partnership: "Partnership / Business Inquiry"
+    operations: "Operations / Delivery",
+    sales: "Sales Inquiry",
+    partnerships: "Partnerships / Collaborations",
+    technical: "Technical Issues",
+    bd: "Business Development",
+    payment: "Payment and Receipts",
+    employment: "Employment"
   };
   const deptMap: Record<string, string> = {
-    billing: "Finance",
-    logistics: "Operations",
-    promotions: "Marketing",
-    hr: "HR",
-    technical: "IT Support",
+    operations: "Operations",
     sales: "Sales",
-    partnership: "Business Development"
+    partnerships: "Marketing",
+    technical: "IT Support",
+    bd: "Business Development",
+    payment: "Finance",
+    employment: "HR"
   };
 
   const categorySelect = document.getElementById('category') as HTMLSelectElement;
