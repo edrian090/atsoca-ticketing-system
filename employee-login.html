@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Access — Atsoca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#1A2F43; --navy:#002355; --signal:#0050AD;
+    --steel:#457DB3; --sky:#8BB1D1; --sky-tint:#EAF1F7;
+    --paper:#FBFCFE; --line:#DCE6EE; --white:#FFFFFF;
+    --err:#C0453E; --err-tint:#FBEAE9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--navy);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+
+  /* Animated background grid */
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(139,177,209,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,177,209,0.06) 1px, transparent 1px);
+    background-size:48px 48px;
+    pointer-events:none;
+  }
+
+  .card{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(139,177,209,0.2);
+    border-radius:20px;
+    padding:48px 44px;
+    width:100%;max-width:420px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.4);
+    animation:fadeUp .4s ease both;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;
+    color:#fff;margin-bottom:36px;
+  }
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--sky),var(--steel));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--navy);font-size:15px;font-weight:700;
+  }
+
+  .badge{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase;
+    background:rgba(139,177,209,0.14);color:var(--sky);
+    border:1px solid rgba(139,177,209,0.3);
+    padding:5px 10px;border-radius:6px;margin-bottom:20px;
+  }
+  .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--sky);}
+
+  h2.title{color:#fff;font-size:26px;font-weight:700;margin-bottom:8px;}
+  p.subtitle{color:#8FA3B6;font-size:14.5px;margin-bottom:32px;line-height:1.6;}
+
+  .field{margin-bottom:20px;}
+  label{
+    display:block;font-size:13px;font-weight:600;
+    color:#B9CBDC;margin-bottom:8px;letter-spacing:.01em;
+  }
+  input[type="password"],input[type="text"]{
+    width:100%;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(139,177,209,0.25);
+    color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-size:15px;
+    padding:12px 16px;border-radius:10px;
+    outline:none;transition:border-color .2s,background .2s;
+    letter-spacing:.1em;
+  }
+  input[type="password"]::placeholder,input[type="text"]::placeholder{
+    color:rgba(139,177,209,0.35);letter-spacing:.01em;
+    font-family:'Inter',sans-serif;font-size:14px;
+  }
+  input[type="password"]:focus,input[type="text"]:focus{
+    border-color:var(--sky);background:rgba(139,177,209,0.08);
+  }
+
+  .toggle-eye{
+    position:relative;
+  }
+  .toggle-eye input{padding-right:44px;}
+  .eye-btn{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    background:none;border:none;cursor:pointer;
+    color:rgba(139,177,209,0.5);font-size:16px;
+    transition:color .15s;padding:4px;
+  }
+  .eye-btn:hover{color:var(--sky);}
+
+  .btn-login{
+    width:100%;padding:14px;
+    background:var(--signal);color:#fff;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
+    border:none;border-radius:10px;cursor:pointer;
+    transition:background .15s,transform .1s,box-shadow .15s;
+    box-shadow:0 4px 16px rgba(0,80,173,0.35);
+    margin-top:8px;
+  }
+  .btn-login:hover{background:#0061D1;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,80,173,0.45);}
+  .btn-login:active{transform:translateY(0);}
+
+  .error-msg{
+    display:none;
+    background:var(--err-tint);border:1px solid rgba(192,69,62,0.35);
+    color:var(--err);border-radius:8px;padding:11px 14px;
+    font-size:13.5px;font-weight:500;margin-top:16px;
+    animation:shake .3s ease;
+  }
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+  .error-msg.show{display:block;}
+
+  .divider{
+    border:none;border-top:1px solid rgba(139,177,209,0.12);
+    margin:28px 0;
+  }
+  .back-link{
+    text-align:center;font-size:13.5px;color:#6B8299;
+  }
+  .back-link a{color:var(--sky);text-decoration:none;font-weight:500;transition:color .15s;}
+  .back-link a:hover{color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo" style="height: 70px; overflow: hidden; display: flex; align-items: center; margin-bottom: 24px;">
+    <img src="./Logos/atsoca_text_white.png" alt="Atsoca Logo" style="width: 280px; height: auto;">
+  </div>
+
+  <div class="badge"><span class="badge-dot"></span>Company Access Only</div>
+  <h2 class="title">Company members only.</h2>
+  <p class="subtitle">This portal is restricted to Atsoca employees. Enter your company passcode to continue. Customers can submit tickets from the <a href="index.html" style="color:var(--sky);">support portal</a>.</p>
+
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <label for="passcode">Company Passcode</label>
+      <div class="toggle-eye">
+        <input type="password" id="passcode" placeholder="Enter company passcode" autocomplete="off" required>
+        <button type="button" class="eye-btn" id="toggleEye" aria-label="Show/hide passcode">👁</button>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-login" id="loginBtn">Enter Company Portal →</button>
+    <div class="error-msg" id="errorMsg">Incorrect passcode. Please try again.</div>
+  </form>
+
+  <hr class="divider">
+  <p class="back-link">Are you a customer? <a href="index.html">Go to support portal →</a></p>
+</div>
+
+<script type="module">
+  // ─── PASSCODE CONFIGURATION ───────────────────────────────────────────────
+  // Change this to your actual team passcode
+  const EMPLOYEE_PASSCODE = 'atsoca2024';
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const form = document.getElementById('loginForm');
+  const input = document.getElementById('passcode');
+  const errorMsg = document.getElementById('errorMsg');
+  const toggleEye = document.getElementById('toggleEye');
+  const loginBtn = document.getElementById('loginBtn');
+
+
+  toggleEye.addEventListener('click', () => {
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    toggleEye.textContent = isPass ? '🙈' : '👁';
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const entered = input.value.trim();
+
+    if (entered === EMPLOYEE_PASSCODE) {
+      sessionStorage.setItem('employee_auth', 'true');
+      loginBtn.textContent = 'Redirecting...';
+      loginBtn.disabled = true;
+      setTimeout(() => { window.location.href = 'employee.html'; }, 300);
+    } else {
+      errorMsg.classList.add('show');
+      input.value = '';
+      input.focus();
+      setTimeout(() => errorMsg.classList.remove('show'), 3000);
+    }
+  });
+
+  input.addEventListener('input', () => errorMsg.classList.remove('show'));
+</script>
+
+</body>
+</html>

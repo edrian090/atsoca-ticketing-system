@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atsoca — Get help, routed right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2F43;
+    --navy:#002355;
+    --signal:#0050AD;
+    --steel:#457DB3;
+    --sky:#8BB1D1;
+    --sky-tint:#EAF1F7;
+    --paper:#FBFCFE;
+    --line:#DCE6EE;
+    --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background-color:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('./Logos/ATSOCA LOGO.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:var(--navy);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{text-decoration:none;color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:2px;}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,252,254,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1536px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:var(--navy);}
+  .logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--signal),var(--steel));display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;}
+  .nav-links{display:flex;gap:36px;align-items:center;}
+  .nav-links a{font-size:14.5px;font-weight:500;color:var(--ink);opacity:0.75;transition:opacity .15s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{display:flex;gap:12px;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:14.5px;
+    padding:10px 20px;border-radius:8px;border:1px solid transparent;cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .btn-primary{background:var(--signal);color:#fff;box-shadow:0 1px 2px rgba(0,35,85,0.15);}
+  .btn-primary:hover{background:var(--navy);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--navy);border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--steel);background:var(--sky-tint);}
+  @media (max-width:860px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{padding:88px 0 64px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;
+    color:var(--signal);background:var(--sky-tint);border:1px solid var(--sky);
+    padding:6px 12px;border-radius:20px;margin-bottom:22px;text-transform:uppercase;
+  }
+  .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--signal);}
+  h1.hero-h{font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-0.01em;margin-bottom:20px;}
+  h1.hero-h span{color:var(--signal);}
+  .hero-sub{font-size:17px;color:#4A5B6E;max-width:460px;margin-bottom:32px;}
+  .hero-actions{display:flex;gap:14px;margin-bottom:36px;flex-wrap:wrap;}
+  .hero-stats{display:flex;gap:32px;padding-top:26px;border-top:1px solid var(--line);}
+  .stat-num{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--navy);}
+  .stat-label{font-size:12.5px;color:#6B7B8C;margin-top:2px;}
+
+  /* ROUTING VISUAL (signature) */
+  .routing-card{
+    background:var(--white);border:1px solid var(--line);border-radius:16px;
+    padding:26px;box-shadow:0 20px 40px -20px rgba(0,35,85,0.18);
+  }
+  .routing-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+  .routing-title{font-size:13px;font-weight:600;color:#6B7B8C;text-transform:uppercase;letter-spacing:.04em;}
+  .routing-live{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--steel);}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:#2FA86A;animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .concern-in{
+    background:var(--sky-tint);border:1px dashed var(--sky);border-radius:10px;
+    padding:14px 16px;font-size:14.5px;color:var(--ink);margin-bottom:16px;
+  }
+  .concern-in .mono{color:var(--steel);font-size:11.5px;display:block;margin-bottom:4px;}
+  .route-arrow{display:flex;justify-content:center;color:var(--sky);font-size:18px;margin:6px 0;}
+  .dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .dept-chip{
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+    display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:var(--navy);
+    transition:border-color .15s;
+  }
+  .dept-chip.active{border-color:var(--signal);background:var(--sky-tint);}
+  .dept-ico{width:8px;height:8px;border-radius:2px;background:var(--steel);flex-shrink:0;}
+  .dept-chip.active .dept-ico{background:var(--signal);}
+
+  /* TRUST BAR */
+  .trustbar{background:var(--navy);padding:28px 0;}
+  .trust-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+  .trust-item{color:#CBD9E8;font-size:13.5px;display:flex;align-items:center;gap:10px;}
+  .trust-item b{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:17px;}
+
+  /* HOW IT WORKS */
+  .section{padding:96px 0;}
+  .section-head{max-width:560px;margin-bottom:56px;}
+  .section-label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--steel);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+  h2.section-h{font-size:32px;font-weight:700;letter-spacing:-0.01em;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .step{border-top:2px solid var(--signal);padding-top:20px;}
+  .step-num{font-family:'IBM Plex Mono',monospace;color:var(--sky);font-size:13px;margin-bottom:10px;}
+  .step h3{font-size:19px;margin-bottom:8px;}
+  .step p{font-size:14.5px;color:#5A6B7C;}
+
+  /* DEPARTMENTS */
+  .depts-section{background:var(--sky-tint);}
+  .dir-table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .dir-table th{text-align:left;font-size:11.5px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.05em;color:#6B7B8C;padding:16px 22px;background:var(--white);border-bottom:1px solid var(--line);}
+  .dir-table td{padding:18px 22px;font-size:14.5px;border-bottom:1px solid var(--line);color:var(--ink);}
+  .dir-table tr:last-child td{border-bottom:none;}
+  .dept-name{font-weight:600;color:var(--navy);display:flex;align-items:center;gap:10px;}
+  .dept-dot{width:8px;height:8px;border-radius:2px;background:var(--steel);}
+  @media (max-width:980px){.steps{grid-template-columns:1fr;} .hero-grid{grid-template-columns:1fr;} .routing-card{max-width:480px;} .dir-table{display:block;overflow-x:auto;}}
+
+  /* FOOTER CTA */
+  .cta-band{background:linear-gradient(120deg,var(--navy),var(--signal));padding:72px 0;text-align:center;}
+  .cta-band h2{color:#fff;font-size:30px;margin-bottom:14px;}
+  .cta-band p{color:#C9D9EB;margin-bottom:28px;}
+  .cta-band .btn-primary{background:#fff;color:var(--navy);}
+  .cta-band .btn-primary:hover{background:var(--sky-tint);}
+
+  footer{background:var(--ink);color:#9FB3C6;padding:56px 0 32px;font-size:13.5px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:32px;margin-bottom:40px;}
+  .footer-grid h4{color:#fff;font-size:13px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.04em;}
+  .footer-grid a{display:block;color:#9FB3C6;margin-bottom:9px;transition:color .15s;}
+  .footer-grid a:hover{color:#fff;}
+  .footer-dept-links{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:center;flex-wrap:wrap;gap:12px;}
+  @media (max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;} .depts-grid{grid-template-columns:1fr;} .footer-dept-links{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><img src="./Logos/Atsoca logo_blue.png" alt="Atsoca Logo" style="height: 40px; width: auto; transform: scale(1.8) translateX(-15px); transform-origin: left center;"><div style="display: flex; flex-direction: column; margin-left: 12px; line-height: 1.2;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 900; color: var(--navy); letter-spacing: 0.02em;">ATSOCA LEARNING &amp; CONSULTANCY OPC</span><span style="font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 500; color: var(--steel);">Integrated Ticketing System</span></div></div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#departments">Departments</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Support, routed automatically</div>
+      <h1 class="hero-h">Tell us what's wrong.<br>We'll get it to the <span>right team</span>.</h1>
+      <p class="hero-sub">Submit one request — Atsoca reads your concern and sends it straight to the department built to solve it. No transfers, no repeating yourself.</p>
+      <div class="hero-actions">
+        <a href="customer_submit-ticket.html" class="btn btn-primary">Submit a ticket →</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">4 min</div><div class="stat-label">avg. first response</div></div>
+        <div><div class="stat-num">96%</div><div class="stat-label">resolved on first route</div></div>
+        <div><div class="stat-num">5</div><div class="stat-label">specialist departments</div></div>
+      </div>
+    </div>
+
+    <div class="routing-card">
+      <div class="routing-head">
+        <div class="routing-title">Welcome to Atsoca Support</div>
+        <div class="routing-live"><span class="live-dot" style="background:var(--signal);"></span>ONLINE 24/7</div>
+      </div>
+      <div class="concern-in" style="text-align: center; padding: 20px;">
+        <span class="mono" style="margin-bottom:10px;">HELLO THERE!</span>
+        "Welcome! We are ready to assist you with any questions or concerns you might have."
+      </div>
+      <div class="route-arrow">↓</div>
+      <div class="dept-grid" style="grid-template-columns: 1fr 1fr;">
+        <a href="customer_submit-ticket.html" class="dept-chip active" style="justify-content:center; text-decoration:none;"><span class="dept-ico"></span>Get Help</a>
+        <a href="#how" class="dept-chip" style="justify-content:center; text-decoration:none;"><span class="dept-ico"></span>How it works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trustbar">
+  <div class="wrap trust-inner">
+    <div class="trust-item"><b>12,400+</b>&nbsp;tickets resolved this year</div>
+    <div class="trust-item"><b>24/7</b>&nbsp;submission, business-hour response</div>
+    <div class="trust-item"><b>100%</b>&nbsp;tickets tracked to close</div>
+    <div class="trust-item"><b>SOC-ready</b>&nbsp;handling of your data</div>
+  </div>
+</div>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">How it works</div>
+      <h2 class="section-h">From concern to resolution, in three steps.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01 — DESCRIBE</div>
+        <h3>Tell us what's going on</h3>
+        <p>Pick a category or just describe your issue in your own words. That's all we need to start.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02 — ROUTE</div>
+        <h3>We assign the right department</h3>
+        <p>Atsoca matches your concern to the specialist team responsible for it — automatically, in seconds.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03 — RESOLVE</div>
+        <h3>Track it until it's closed</h3>
+        <p>Watch status update in real time and get notified the moment your ticket is resolved.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section depts-section" id="departments">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Departments</div>
+      <h2 class="section-h">Every concern has a home.</h2>
+    </div>
+    <table class="dir-table">
+      <thead>
+        <tr>
+          <th style="width:110px;">Ticket</th>
+          <th>Subject</th>
+          <th style="width:120px;">Submitted</th>
+          <th style="width:120px;">Status</th>
+          <th style="width:140px;">Assigned</th>
+          <th style="width:110px;">Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>Operations</div></td>
+          <td>Day-to-day processes, logistics, equipment & workspace</td>
+          <td>~4 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>Sales</div></td>
+          <td>Client accounts, deals, sales support</td>
+          <td>~3 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>Marketing</div></td>
+          <td>Campaigns, promotions, brand & content requests</td>
+          <td>~4 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>Business Development</div></td>
+          <td>Partnerships, new business & external inquiries</td>
+          <td>~5 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>IT Support</div></td>
+          <td>Hardware, software, systems, devices & outages</td>
+          <td>~2 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>Finance</div></td>
+          <td>Billing, payments, invoices & refunds</td>
+          <td>~3 hours</td>
+        </tr>
+        <tr>
+          <td><div class="dept-name"><span class="dept-dot"></span>HR</div></td>
+          <td>Employment, benefits, leave & HR-related concerns</td>
+          <td>~4 hours</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="cta-band" id="submit">
+  <div class="wrap">
+    <h2>Ready when you are.</h2>
+    <p>Submitting a ticket takes under two minutes.</p>
+    <a href="customer_submit-ticket.html" class="btn btn-primary">Submit a ticket →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="color:#fff;margin-bottom:10px;">
+          <img src="./Logos/Atsoca logo_blue.png" alt="Atsoca Logo" style="height: 40px; width: auto; transform: scale(1.8) translateX(-15px); transform-origin: left center;"><div style="display: flex; flex-direction: column; margin-left: 12px; line-height: 1.2;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 0.02em;">ATSOCA LEARNING &amp; CONSULTANCY OPC</span><span style="font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 500; color: #8FA3B6;">Integrated Ticketing System</span></div>
+        </div>
+        <p style="max-width:280px;color:#8FA3B6;">A ticketing system that routes every concern to the team built to solve it.</p>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="customer_submit-ticket.html">Submit a ticket</a>
+      </div>
+      <div>
+        <h4>Departments</h4>
+        <div class="footer-dept-links">
+          <a href="#departments">IT Support</a>
+          <a href="#departments">Operations</a>
+          <a href="#departments">Sales</a>
+          <a href="#departments">Marketing</a>
+          <a href="#departments">Business Development</a>
+          <a href="#departments">Finance</a>
+          <a href="#departments">HR</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Atsoca. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit an Internal Ticket — Atsoca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2F43;
+    --navy:#002355;
+    --signal:#0050AD;
+    --steel:#457DB3;
+    --sky:#8BB1D1;
+    --sky-tint:#EAF1F7;
+    --paper:#FBFCFE;
+    --line:#DCE6EE;
+    --white:#FFFFFF;
+    --ok:#2FA86A;
+    --err:#C0453E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:var(--navy);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{text-decoration:none;color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:2px;}
+
+  /* TOP BAR — matches employee.html */
+  .topbar{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1536px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;color:#fff;}
+  .logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--sky),var(--steel));display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:13px;font-weight:700;}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;background:rgba(139,177,209,0.16);color:var(--sky);border:1px solid rgba(139,177,209,0.35);padding:3px 9px;border-radius:5px;margin-left:10px;text-transform:uppercase;}
+  .back-link{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:#B9CBDC;transition:color .15s;}
+  .back-link:hover{color:#fff;}
+
+  /* HEADER */
+  .header{padding:56px 0 36px;}
+  .header-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:end;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;color:var(--signal);background:var(--sky-tint);border:1px solid var(--sky);padding:6px 12px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;}
+  .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--signal);}
+  h1.page-h{font-size:36px;font-weight:700;letter-spacing:-0.01em;margin-bottom:14px;}
+  .page-sub{font-size:15.5px;color:#4A5B6E;max-width:460px;}
+  .header-note{font-size:13.5px;color:#5A6B7C;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px 20px;}
+  .header-note b{color:var(--navy);display:block;margin-bottom:6px;font-family:'Space Grotesk',sans-serif;font-size:14.5px;}
+
+  /* LAYOUT */
+  .main-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding-bottom:96px;align-items:start;}
+
+  /* FORM CARD */
+  .form-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:36px;box-shadow:0 20px 44px -28px rgba(0,35,85,0.18);}
+  fieldset{border:none;}
+  .field-group{margin-bottom:24px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  label{display:block;font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  label .req{color:var(--err);margin-left:2px;}
+  label .opt{color:#8CA0B3;font-weight:400;font-size:12px;margin-left:6px;}
+  input[type="text"],input[type="email"],input[type="tel"],input[type="url"],select,textarea{
+    width:100%;font-family:'Inter',sans-serif;font-size:14.5px;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;transition:border-color .15s, background .15s;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--signal);background:var(--white);}
+  input::placeholder,textarea::placeholder{color:#9AAABB;}
+  textarea{resize:vertical;min-height:130px;font-family:'Inter',sans-serif;}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1L6 6L11 1' stroke='%23457DB3' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;cursor:pointer;}
+  .char-count{font-size:12px;color:#9AAABB;margin-top:6px;text-align:right;}
+
+  /* ROUTE HINT */
+  .route-hint{
+    display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 14px;
+    background:var(--sky-tint);border:1px solid var(--sky);border-radius:8px;
+    font-size:13px;color:var(--navy);opacity:0;max-height:0;overflow:hidden;
+    transition:opacity .2s ease, max-height .2s ease, margin .2s ease;
+  }
+  .route-hint.show{opacity:1;max-height:60px;margin-top:10px;}
+  .route-hint .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);flex-shrink:0;}
+
+  /* DROPZONE */
+  .dropzone{
+    border:1.5px dashed var(--sky);border-radius:12px;padding:28px 20px;text-align:center;
+    background:var(--sky-tint);cursor:pointer;transition:border-color .15s, background .15s;
+  }
+  .dropzone:hover,.dropzone.dragover{border-color:var(--signal);background:#E2ECF5;}
+  .dropzone-icon{width:38px;height:38px;border-radius:10px;background:var(--white);border:1px solid var(--sky);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--signal);font-size:17px;font-weight:700;}
+  .dropzone p{font-size:14px;color:var(--navy);font-weight:600;margin-bottom:4px;}
+  .dropzone span{font-size:12.5px;color:#5A6B7C;}
+  #fileInput{display:none;}
+  .file-list{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+  .file-chip{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;
+  }
+  .file-chip-name{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .file-chip-name .fi{width:26px;height:26px;border-radius:6px;background:var(--sky-tint);color:var(--steel);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
+  .file-remove{color:#9AAABB;font-size:16px;cursor:pointer;background:none;border:none;padding:2px 6px;line-height:1;}
+  .file-remove:hover{color:var(--err);}
+
+  /* SUBMIT */
+  .form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:14px;}
+  .privacy-note{font-size:12.5px;color:#8CA0B3;max-width:300px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;padding:13px 26px;border-radius:9px;border:none;cursor:pointer;transition:transform .12s ease, background .12s ease;}
+  .btn-primary{background:var(--signal);color:#fff;box-shadow:0 1px 2px rgba(0,35,85,0.15);}
+  .btn-primary:hover{background:var(--navy);transform:translateY(-1px);}
+  .btn-primary:disabled{background:#B7C9DA;cursor:not-allowed;transform:none;}
+
+  /* SIDE PANEL */
+  .side-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:20px;}
+  .side-card h3{font-size:14.5px;margin-bottom:14px;}
+  .cat-list{display:flex;flex-direction:column;gap:10px;}
+  .cat-item{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px;color:#4A5B6E;padding:8px 10px;border-radius:8px;transition:background .15s,color .15s;}
+  .cat-item-left{display:flex;align-items:center;gap:10px;}
+  .cat-item .dot{width:7px;height:7px;border-radius:2px;background:var(--sky);flex-shrink:0;}
+  .cat-item .cat-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9AAABB;}
+  .cat-item.active{background:var(--sky-tint);color:var(--navy);font-weight:600;}
+  .cat-item.active .dot{background:var(--signal);}
+  .cat-item.active .cat-time{color:var(--steel);}
+  .side-note{font-size:13px;color:#5A6B7C;line-height:1.6;}
+  .side-note b{color:var(--navy);}
+  .stat-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-row b{font-family:'Space Grotesk',sans-serif;color:var(--navy);}
+
+  /* SUCCESS STATE */
+  .success-card{display:none;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:56px 40px;text-align:center;box-shadow:0 20px 44px -28px rgba(0,35,85,0.18);}
+  .success-card.show{display:block;}
+  .form-card.hide{display:none;}
+  .success-icon{width:56px;height:56px;border-radius:50%;background:rgba(47,168,106,0.12);color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;}
+  .success-id{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--steel);background:var(--sky-tint);border:1px solid var(--sky);display:inline-block;padding:8px 16px;border-radius:8px;margin:16px 0 24px;}
+  .success-card h2{font-size:24px;margin-bottom:10px;}
+  .success-card p{font-size:14.5px;color:#5A6B7C;max-width:380px;margin:0 auto 24px;}
+
+  @media (max-width:860px){
+    .header-grid{grid-template-columns:1fr;}
+    .main-grid{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+    .form-card{padding:24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo"><img src="./Logos/Atsoca logo_lightblue.png" alt="Atsoca Logo" style="height: 40px; width: auto; transform: scale(1.8) translateX(-15px); transform-origin: left center;"><div style="display: flex; flex-direction: column; margin-left: 12px; line-height: 1.2;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 0.02em;">ATSOCA LEARNING &amp; CONSULTANCY OPC</span><span style="font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 500; color: var(--steel);">Integrated Ticketing System</span></div><span class="badge">Employee</span></div>
+    <a href="javascript:history.back()" id="backToDashLink" class="back-link">← Back to dashboard</a>
+  </div>
+</div>
+
+<header class="header">
+  <div class="wrap header-grid">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>New internal ticket</div>
+      <h1 class="page-h">Raise a request. No sign-in needed.</h1>
+      <p class="page-sub">Fill in your details and describe your request. We'll route it straight to the department that owns it and keep you updated by email.</p>
+    </div>
+    <div class="header-note">
+      <b>Before you submit</b>
+      Pick the department closest to your request — you can attach files (screenshots, receipts, forms) if they'll help resolve it faster.
+    </div>
+  </div>
+</header>
+
+<div class="wrap main-grid" id="formWrap">
+  <form class="form-card" id="ticketForm" novalidate>
+    <div class="field-group field-row">
+      <div>
+        <label for="fullName">Full name<span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
+      </div>
+      <div>
+        <label for="email">Work email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@atsoca.com" required>
+      </div>
+    </div>
+
+    <div class="field-group field-row">
+      <div>
+        <label for="deptField">Your department<span class="req">*</span></label>
+        <select id="deptField" required>
+          <option value="" selected disabled>Select your department</option>
+          <option value="Operations">Operations</option>
+          <option value="Sales">Sales</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Business Development">Business Development</option>
+          <option value="IT Support">IT Support</option>
+          <option value="Finance">Finance</option>
+          <option value="HR">HR</option>
+        </select>
+      </div>
+      <div>
+        <label for="contact">Contact number<span class="req">*</span></label>
+        <input type="tel" id="contact" placeholder="09XX XXX XXXX" required>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="facebookLink">Facebook link<span class="req">*</span></label>
+      <input type="url" id="facebookLink" placeholder="https://facebook.com/yourprofile" required>
+    </div>
+
+    <div class="field-group field-row">
+      <div style="flex: 1;">
+        <label for="category">Send this request to<span class="req">*</span></label>
+        <select id="category" required>
+          <option value="" selected disabled>Select a department</option>
+          <option value="operations">Operations</option>
+          <option value="sales">Sales</option>
+          <option value="marketing">Marketing</option>
+          <option value="bd">Business Development</option>
+          <option value="tech">Tech</option>
+          <option value="finance">Finance</option>
+          <option value="hr">HR</option>
+        </select>
+        <div class="route-hint" id="routeHint">
+          <span class="dot"></span><span id="routeHintText"></span>
+        </div>
+      </div>
+      <div style="flex: 1;">
+        <label for="priority">Priority level<span class="req">*</span></label>
+        <select id="priority" required>
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="description">Describe your request<span class="req">*</span></label>
+      <textarea id="description" maxlength="1000" placeholder="Tell us what you need and any relevant details..." required></textarea>
+      <div class="char-count"><span id="charCount">0</span>/1000</div>
+    </div>
+
+    <div class="field-group">
+      <label for="fileInput">Attachment<span class="opt">optional — screenshots, forms, receipts</span></label>
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">↑</div>
+        <p>Click to upload or drag files here</p>
+        <span>PDF, JPG, PNG, DOCX up to 10MB each</span>
+      </div>
+      <input type="file" id="fileInput" multiple>
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <div class="form-footer">
+      <p class="privacy-note">By submitting, you agree that Atsoca may use these details to route and resolve your request. Visible only to your assigned department.</p>
+      <button type="button" class="btn btn-primary" id="submitBtn">Submit ticket →</button>
+    </div>
+  </form>
+
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✓</div>
+    <h2>Ticket submitted</h2>
+    <p>Your request has been received and routed to the right department. A confirmation has been sent to your work email.</p>
+    <div class="success-id mono" id="successId">#AT-00000</div>
+    <div>
+      <a href="javascript:history.back()" class="btn btn-primary">Back to dashboard</a>
+    </div>
+  </div>
+
+  <div class="side-panel">
+    <div class="side-card">
+      <h3>Departments</h3>
+      <div class="cat-list" id="catList">
+        <div class="cat-item" data-cat="operations"><div class="cat-item-left"><span class="dot"></span>Operations</div><span class="cat-time">~4h</span></div>
+        <div class="cat-item" data-cat="sales"><div class="cat-item-left"><span class="dot"></span>Sales</div><span class="cat-time">~3h</span></div>
+        <div class="cat-item" data-cat="marketing"><div class="cat-item-left"><span class="dot"></span>Marketing</div><span class="cat-time">~4h</span></div>
+        <div class="cat-item" data-cat="bd"><div class="cat-item-left"><span class="dot"></span>Business Development</div><span class="cat-time">~5h</span></div>
+        <div class="cat-item" data-cat="tech"><div class="cat-item-left"><span class="dot"></span>Tech</div><span class="cat-time">~2h</span></div>
+        <div class="cat-item" data-cat="finance"><div class="cat-item-left"><span class="dot"></span>Finance</div><span class="cat-time">~3h</span></div>
+        <div class="cat-item" data-cat="hr"><div class="cat-item-left"><span class="dot"></span>HR</div><span class="cat-time">~4h</span></div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3>What to expect</h3>
+      <div class="stat-row"><span>First response</span><b>~2–5 hrs</b></div>
+      <div class="stat-row"><span>Update by</span><b>Email</b></div>
+      <div class="stat-row"><span>Visibility</span><b>Assigned dept only</b></div>
+    </div>
+    <div class="side-card">
+      <p class="side-note"><b>Note:</b> Fields marked with an asterisk are required. Attachments help your assigned department resolve things faster, but aren't required to submit.</p>
+    </div>
+  </div>
+</div>
+
+
+
+  <script type="module" src="/src/pages/internal_submit.ts" defer></script>
+</body>
+</html>

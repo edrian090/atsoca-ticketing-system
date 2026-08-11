@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Queue — Atsoca Employee Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2F43;--navy:#002355;--signal:#0050AD;--steel:#457DB3;
+    --sky:#8BB1D1;--sky-tint:#EAF1F7;--paper:#FBFCFE;--line:#DCE6EE;
+    --white:#FFFFFF;--ok:#2FA86A;--ok-tint:#E4F5EC;--warn:#C98A2B;
+    --warn-tint:#FBF1E1;--err:#C0453E;--err-tint:#FBEAE9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:var(--navy);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:'Inter',sans-serif;}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:2px;}
+
+  /* TOP BAR */
+  .topbar{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:1320px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#fff;}
+  .logo-mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--sky),var(--steel));display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:12px;font-weight:700;}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;background:rgba(139,177,209,0.16);color:var(--sky);border:1px solid rgba(139,177,209,0.35);padding:3px 9px;border-radius:5px;margin-left:10px;text-transform:uppercase;}
+  .topbar-right{display:flex;align-items:center;gap:18px;}
+  .user-chip{display:flex;align-items:center;gap:9px;}
+  .user-avatar{width:28px;height:28px;border-radius:50%;background:var(--sky-tint);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .user-name{font-size:13px;color:#fff;font-weight:600;}
+  .signout{font-size:12.5px;color:#B9CBDC;font-weight:500;transition:color .15s;}
+  .signout:hover{color:#fff;}
+
+  .page-wrap{max-width:1320px;margin:0 auto;padding:0 32px;}
+
+  /* HEADER */
+  .dash-header{padding:36px 0 28px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+  .dash-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  h1.dash-h{font-size:28px;font-weight:700;letter-spacing:-0.01em;}
+  .dash-sub{font-size:14px;color:#5A6B7C;margin-top:6px;}
+
+  /* STAT CARDS */
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+  .stat-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px 22px;}
+  .stat-card .lbl{font-size:12px;color:#6B7B8C;text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:10px;}
+  .stat-card .num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--navy);}
+  .stat-card .delta{font-size:12px;margin-top:6px;color:#8CA0B3;}
+  .stat-card .delta.up{color:var(--ok);}
+  .stat-card .delta.warn{color:var(--warn);}
+
+  /* CONTROLS */
+  .controls{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
+  .tabs{display:flex;gap:6px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:4px;}
+  .tab{font-size:13px;font-weight:600;color:#5A6B7C;padding:8px 16px;border-radius:7px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap;}
+  .tab:hover{color:var(--navy);}
+  .tab.active{background:var(--navy);color:#fff;}
+  .tab .count{font-family:'IBM Plex Mono',monospace;font-size:11px;opacity:.7;margin-left:4px;}
+  .search-wrap{position:relative;flex:1;max-width:280px;min-width:200px;}
+  .search-wrap input{
+    width:100%;font-size:13.5px;color:var(--ink);background:var(--white);
+    border:1px solid var(--line);border-radius:9px;padding:10px 14px 10px 36px;
+  }
+  .search-wrap input:focus{outline:none;border-color:var(--signal);}
+  .search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9AAABB;font-size:14px;}
+
+  /* TABLE */
+  .queue-card{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:56px;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{
+    text-align:left;font-size:11px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;
+    letter-spacing:.05em;color:#6B7B8C;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--paper);
+  }
+  tbody tr{border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s;}
+  tbody tr:last-child{border-bottom:none;}
+  tbody tr:hover{background:var(--sky-tint);}
+  tbody tr.selected{background:#E2ECF5;}
+  td{padding:16px 20px;font-size:13.5px;color:var(--ink);vertical-align:middle;}
+  .tid{font-family:'IBM Plex Mono',monospace;color:var(--steel);font-size:12.5px;}
+  .t-subject{font-weight:600;color:var(--navy);margin-bottom:2px;}
+  .t-meta{font-size:12px;color:#8CA0B3;}
+  .badge-status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 11px;border-radius:20px;white-space:nowrap;}
+  .badge-status .dot{width:6px;height:6px;border-radius:50%;}
+  .badge-status.open{background:var(--sky-tint);color:var(--signal);}
+  .badge-status.open .dot{background:var(--signal);}
+  .badge-status.progress{background:var(--warn-tint);color:var(--warn);}
+  .badge-status.progress .dot{background:var(--warn);}
+  .badge-status.resolved{background:var(--ok-tint);color:var(--ok);}
+  .badge-status.resolved .dot{background:var(--ok);}
+  .priority{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;}
+  .priority.high{background:var(--err-tint);color:var(--err);}
+  .priority.normal{background:var(--sky-tint);color:var(--steel);}
+  .empty-state{padding:64px 20px;text-align:center;}
+  .empty-state h3{font-size:17px;margin-bottom:8px;}
+  .empty-state p{font-size:13.5px;color:#8CA0B3;}
+
+  /* SLIDE-OVER DETAIL PANEL */
+  .overlay{position:fixed;inset:0;background:rgba(0,35,85,0.28);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:60;}
+  .overlay.show{opacity:1;pointer-events:auto;}
+  .panel{
+    position:fixed;top:0;right:0;height:100%;width:440px;max-width:92vw;background:var(--white);
+    box-shadow:-24px 0 48px -20px rgba(0,35,85,0.3);z-index:61;transform:translateX(100%);
+    transition:transform .25s ease;display:flex;flex-direction:column;
+  }
+  .panel.show{transform:translateX(0);}
+  .panel-head{padding:24px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .panel-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--white);color:#6B7B8C;font-size:15px;cursor:pointer;flex-shrink:0;transition:background .15s;}
+  .panel-close:hover{background:var(--sky-tint);}
+  .panel-body{padding:24px 26px;overflow-y:auto;flex:1;}
+  .panel-section{margin-bottom:24px;}
+  .panel-label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#8CA0B3;font-weight:600;margin-bottom:8px;}
+  .panel-value{font-size:14.5px;color:var(--ink);}
+  .panel-desc{font-size:14px;color:#4A5B6E;line-height:1.65;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .attach-chip{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .attach-chip .fi{width:24px;height:24px;border-radius:6px;background:var(--sky-tint);color:var(--steel);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
+  select.status-select{
+    width:100%;appearance:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);
+    background:var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1L6 6L11 1' stroke='%23457DB3' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>") no-repeat right 14px center;
+    border:1px solid var(--line);border-radius:9px;padding:11px 38px 11px 14px;cursor:pointer;
+  }
+  select.status-select:focus{outline:none;border-color:var(--signal);}
+  textarea.note-input{
+    width:100%;font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink);background:var(--paper);
+    border:1px solid var(--line);border-radius:9px;padding:12px 14px;resize:vertical;min-height:80px;
+  }
+  textarea.note-input:focus{outline:none;border-color:var(--signal);background:var(--white);}
+  .panel-footer{padding:18px 26px;border-top:1px solid var(--line);display:flex;gap:10px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:14px;padding:11px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:transform .12s ease, background .12s ease;}
+  .btn-primary{background:var(--signal);color:#fff;flex:1;}
+  .btn-primary:hover{background:var(--navy);transform:translateY(-1px);}
+  .btn-line{background:transparent;color:var(--navy);border-color:var(--line);}
+  .btn-line:hover{border-color:var(--steel);background:var(--sky-tint);}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--navy);color:#fff;font-size:13.5px;font-weight:600;padding:12px 22px;border-radius:9px;
+    opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:70;display:flex;align-items:center;gap:10px;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);}
+
+  @media (max-width:980px){.stat-row{grid-template-columns:1fr 1fr;} .panel-grid{grid-template-columns:1fr;} thead th:nth-child(4),td:nth-child(4){display:none;}}
+  @media (max-width:700px){.stat-row{grid-template-columns:1fr;} thead th:nth-child(3),td:nth-child(3){display:none;} .topbar-right .user-name{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo"><img src="./Logos/Atsoca logo_blue.png" alt="Atsoca Logo" style="height: 40px; width: auto; transform: scale(1.8) translateX(-15px); transform-origin: left center;"><div style="display: flex; flex-direction: column; margin-left: 12px; line-height: 1.2;"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: var(--navy); letter-spacing: 0.02em;">ATSOCA LEARNING &amp; CONSULTANCY OPC</span><span style="font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 500; color: var(--steel);">Integrated Ticketing System</span></div><span class="badge" id="deptBadge">Tech</span></div>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="staffAvatar">MR</div>
+        <span class="user-name" id="staffName">Mika Reyes</span>
+      </div>
+      <a href="employee.html" id="signOutBtn" class="signout">Sign out</a>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="dash-header">
+    <div>
+      <div class="dash-eyebrow"><span class="live-dot"></span>QUEUE — <span id="deptEyebrow">TECH</span> DEPARTMENT</div>
+      <h1 class="dash-h">Tech / IT Support Team Queue</h1>
+      <p class="dash-sub" id="dashSub">Everything routed to Tech, newest first.</p>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="lbl">Open</div>
+      <div class="num" id="statOpen">0</div>
+      <div class="delta warn" id="statOpenDelta"></div>
+    </div>
+    <div class="stat-card">
+      <div class="lbl">In progress</div>
+      <div class="num" id="statProgress">0</div>
+      <div class="delta">being worked on</div>
+    </div>
+    <div class="stat-card">
+      <div class="lbl">Resolved today</div>
+      <div class="num" id="statResolved">0</div>
+      <div class="delta up">on track</div>
+    </div>
+    <div class="stat-card">
+      <div class="lbl">Avg response</div>
+      <div class="num" id="statAvg">—</div>
+      <div class="delta">this department</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-filter="all">All<span class="count" id="cAll"></span></div>
+      <div class="tab" data-filter="open">Open<span class="count" id="cOpen"></span></div>
+      <div class="tab" data-filter="progress">In progress<span class="count" id="cProgress"></span></div>
+      <div class="tab" data-filter="resolved">Resolved<span class="count" id="cResolved"></span></div>
+    </div>
+    <div class="search-wrap">
+      <span class="si">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search ticket ID or subject...">
+    </div>
+  </div>
+
+  <div class="queue-card">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:110px;">Ticket</th>
+          <th>Subject</th>
+          <th style="width:120px;">Submitted</th>
+          <th style="width:120px;">Status</th>
+          <th style="width:140px;">Assigned</th>
+          <th style="width:110px;">Created</th>
+        </tr>
+      </thead>
+      <tbody id="queueBody"></tbody>
+    </table>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <h3>No tickets here</h3>
+      <p>Nothing matches this filter right now — try "All" or clear your search.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="panel">
+  <div class="panel-head">
+    <div>
+      <div class="panel-label" id="panelId">#AT-00000</div>
+      <h2 id="panelSubject" style="font-size:18px;margin-top:4px;">Ticket subject</h2>
+    </div>
+    <button class="panel-close" id="panelClose">×</button>
+  </div>
+  <div class="panel-body">
+    <div class="panel-section panel-grid">
+      <div>
+        <div class="panel-label">Submitted by</div>
+        <div class="panel-value" id="panelName">—</div>
+      </div>
+      <div>
+        <div class="panel-label">Submitted</div>
+        <div class="panel-value" id="panelDate">—</div>
+      </div>
+    </div>
+    <div class="panel-section panel-grid">
+      <div>
+        <div class="panel-label">Contact</div>
+        <div class="panel-value" id="panelContact">—</div>
+      </div>
+      <div>
+        <div class="panel-label">Priority</div>
+        <div class="panel-value" id="panelPriority">—</div>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Description</div>
+      <p class="panel-desc" id="panelDesc">—</p>
+    </div>
+    <div class="panel-section" id="panelAttachSection">
+      <div class="panel-label">Attachments</div>
+      <div id="panelAttachments"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Update status</div>
+      <select class="status-select" id="statusSelect">
+        <option value="open">Open</option>
+        <option value="progress">In progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+    </div>
+    <div class="panel-section" style="margin-bottom:0;">
+      <div class="panel-label">Internal note<span style="text-transform:none;font-weight:400;color:#9AAABB;"> — not visible to the submitter</span></div>
+      <textarea class="note-input" id="noteInput" placeholder="Add context for your team..."></textarea>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-line" id="panelCancel">Close</button>
+    <button class="btn btn-primary" id="panelSave">Save changes</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText">Saved</span></div>
+
+<script type="module" src="/src/pages/dashboard.ts"></script>
+
+</body>
+</html>

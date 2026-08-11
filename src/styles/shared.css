@@ -1,0 +1,18 @@
+/* Global shared CSS extracted from HTML files */
+:root {
+  --ink: #1A2F43;
+  --navy: #002355;
+  --signal: #0050AD;
+  --steel: #457DB3;
+  --sky: #8BB1D1;
+  --sky-tint: #EAF1F7;
+  --paper: #FBFCFE;
+  --line: #DCE6EE;
+  --white: #FFFFFF;
+  --ok: #2FA86A;
+  --ok-tint: #E4F5EC;
+  --warn: #C98A2B;
+  --warn-tint: #FBF1E1;
+  --err: #C0453E;
+  --err-tint: #FBEAE9;
+}
