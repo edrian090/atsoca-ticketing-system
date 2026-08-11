@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             customer_email: ticket.email,
             department: ticket.department,
             department_email: RoutingService.getDepartmentEmail(ticket.department),
+            reply_to: ticket.email,
             subject: ticket.subject,
             description: ticket.description
           };

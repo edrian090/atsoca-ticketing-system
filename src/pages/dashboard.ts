@@ -482,6 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ticket_id: t.id.substring(0, 8).toUpperCase(),
             customer_email: t.email,
             department_email: RoutingService.getDepartmentEmail(t.department),
+            reply_to: RoutingService.getDepartmentEmail(t.department),
             department: t.department,
             resolution_notes: newNotes
           };
