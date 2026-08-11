@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const elContact = document.getElementById('panelContact');
     const elFacebook = document.getElementById('panelFacebook');
     const elDesc = document.getElementById('panelDesc');
+    const panelBatchNumber = document.getElementById('panelBatchNumber');
     const panelAttachSection = document.getElementById('panelAttachSection');
     const panelAttachments = document.getElementById('panelAttachments');
     const badges = document.getElementById('panelBadges');
@@ -311,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if(elDate) elDate.textContent = new Date(t.createdAt).toLocaleString();
     if(elUpdated) elUpdated.textContent = new Date(t.updatedAt).toLocaleString();
+    if(panelBatchNumber) panelBatchNumber.textContent = t.batchNumber || '—';
     if(elDesc) elDesc.textContent = t.description;
     
     if (panelAttachSection && panelAttachments) {

@@ -186,15 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const desc = formData.get('description') as string;
         const batchNumber = formData.get('batchNumber') as string;
-        const finalDescription = batchNumber ? `[Batch Number: ${batchNumber}]\n\n${desc}` : desc;
 
         const ticket = await TicketService.createTicket({
           subject: `Concern regarding ${subjectLabel}`,
-          description: finalDescription,
+          description: desc,
           department: dept,
           customerId: formData.get('fullname') as string,
           email: formData.get('email') as string,
           contact: formData.get('contact') as string,
+          batchNumber: batchNumber,
           facebookLink: formData.get('facebookLink') as string,
           isInternal: false,
           assignedTo: autoAssignee,

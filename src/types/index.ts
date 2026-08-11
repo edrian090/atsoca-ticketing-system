@@ -15,6 +15,7 @@ export interface Ticket {
   customerId: string;
   email?: string;
   contact?: string;
+  batchNumber?: string;
   facebookLink?: string;
   employeeDept?: string;
   isInternal?: boolean;
