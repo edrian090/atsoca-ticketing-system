@@ -19,7 +19,8 @@ export default defineConfig({
         'dept-bd': resolve(__dirname, 'dept-bd.html'),
         'dept-tech': resolve(__dirname, 'dept-tech.html'),
         'dept-finance': resolve(__dirname, 'dept-finance.html'),
-        'dept-hr': resolve(__dirname, 'dept-hr.html')
+        'dept-hr': resolve(__dirname, 'dept-hr.html'),
+        'master-dashboard': resolve(__dirname, 'master-dashboard.html')
       }
     }
   }

@@ -8,6 +8,22 @@ export function requireEmployeeAuth(): void {
   }
 }
 
+/**
+ * Guards the master-dashboard.html — ensures the logged-in staff
+ * has deptKey === 'master' before allowing access.
+ */
+export function requireMasterAuth(): void {
+  if (sessionStorage.getItem(EMPLOYEE_AUTH_KEY) !== 'true') {
+    window.location.replace('employee-login.html');
+    return;
+  }
+  const deptKey = sessionStorage.getItem('staff_dept_key');
+  if (deptKey !== 'master') {
+    // Not a master admin — send them to their department page instead
+    window.location.replace('employee.html');
+  }
+}
+
 export function signOut(): void {
   // Clear staff session data
   sessionStorage.removeItem('staff_name');
@@ -15,7 +31,7 @@ export function signOut(): void {
   sessionStorage.removeItem('staff_dept_key');
   sessionStorage.removeItem('staff_initials');
   
-  // Redirect back to employee page
+  // If master admin was signed in, go to employee.html; else same
   window.location.href = 'employee.html';
 }
 

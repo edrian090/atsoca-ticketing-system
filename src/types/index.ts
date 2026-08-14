@@ -12,6 +12,7 @@ export interface Ticket {
   priority?: 'low' | 'medium' | 'high' | 'urgent';
   status: 'new' | 'open' | 'pending' | 'resolved' | 'closed';
   department: string;
+  concernDepartment?: string;   // Original dept hint set by customer (for Master Admin triage)
   customerId: string;
   email?: string;
   contact?: string;

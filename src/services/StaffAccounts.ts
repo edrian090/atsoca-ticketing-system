@@ -10,6 +10,14 @@ export interface StaffAccount {
 // ─── STAFF ACCOUNTS (one per department) ────────────────────────────────────
 export const STAFF_ACCOUNTS: StaffAccount[] = [
   {
+    email: 'admin@atsoca.com',
+    password: 'master2024',
+    name: 'Master Admin',
+    department: 'Master',
+    deptKey: 'master',
+    pageUrl: 'master-dashboard.html'
+  },
+  {
     email: 'operations@atsoca.com',
     password: 'ops2024',
     name: 'Rico Domingo',
@@ -72,4 +80,8 @@ export function authenticateStaff(email: string, password: string): StaffAccount
     a => a.email.toLowerCase() === email.toLowerCase() && a.password === password
   );
   return account ?? null;
+}
+
+export function isMasterAdmin(deptKey: string): boolean {
+  return deptKey === 'master';
 }

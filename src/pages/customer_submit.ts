@@ -180,8 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const subConcern = select ? select.value : '';
       let subjectLabel = categoryLabels[category] || category;
       if (subConcern) subjectLabel = subConcern;
-      
-      const autoAssignee = subConcern ? await RoutingService.getAssignee(dept, subConcern) : '';
 
       try {
         const desc = formData.get('description') as string;
@@ -190,15 +188,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const ticket = await TicketService.createTicket({
           subject: `Concern regarding ${subjectLabel}`,
           description: desc,
-          department: dept,
+          department: 'Master',          // All new tickets go to Master Admin first
           customerId: formData.get('fullname') as string,
           email: formData.get('email') as string,
           contact: formData.get('contact') as string,
           batchNumber: batchNumber,
           facebookLink: formData.get('facebookLink') as string,
           isInternal: false,
-          assignedTo: autoAssignee,
-          attachments: files.map(f => f.name)
+          assignedTo: '',                 // Unassigned until admin triages
+          attachments: files.map(f => f.name),
+          // Store original department hint so admin knows which dept to escalate to
+          concernDepartment: dept
         });
 
         if (fileDataUrls.length > 0) {

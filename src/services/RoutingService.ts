@@ -27,7 +27,8 @@ const departmentEmails: Record<string, string> = {
   'IT Support': 'atsoca.tech@gmail.com',
   'Marketing': 'atsoca.marketing@gmail.com',
   'Business Development': 'bdd.alco@gmail.com',
-  'HR': 'atsoca.tech@gmail.com' // Fallback for now until provided
+  'HR': 'atsoca.tech@gmail.com', // Fallback for now until provided
+  'Master': 'admin@atsoca.com'
 };
 
 export class RoutingService {
