@@ -428,8 +428,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (escalateDeptSelect) {
       // Default selection to concern department hint if available and not already escalated
-      if (t.concernDepartment && t.department === 'Master') {
-        escalateDeptSelect.value = t.concernDepartment;
+      if (t.employeeDept && t.department === 'Master') {
+        escalateDeptSelect.value = t.employeeDept;
       } else {
         escalateDeptSelect.value = '';
       }

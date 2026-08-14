@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
           assignedTo: '',                 // Unassigned until admin triages
           attachments: files.map(f => f.name),
           // Store original department hint so admin knows which dept to escalate to
-          concernDepartment: dept
+          employeeDept: dept
         });
 
         if (fileDataUrls.length > 0) {
